@@ -126,6 +126,75 @@ npm run build
 npx firebase-tools deploy --only hosting
 ```
 
+### 6. Deploy automático con GitHub Actions
+
+El repo incluye `.github/workflows/firebase-hosting-merge.yml`, que en cada
+push a `main` instala dependencias, corre `npm run build` y despliega el
+resultado (`dist/`) a Firebase Hosting.
+
+Para que el workflow funcione hay que configurar estos **secrets** en
+GitHub (_Settings > Secrets and variables > Actions > New repository
+secret_):
+
+| Secret                              | Valor                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| `FIREBASE_PROJECT_ID`               | El Project ID de Firebase (ej. `daily-duty-institute`)                |
+| `FIREBASE_SERVICE_ACCOUNT`          | JSON completo de una service account con permiso de deploy (ver abajo) |
+| `VITE_FIREBASE_API_KEY`             | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_AUTH_DOMAIN`         | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_PROJECT_ID`          | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_STORAGE_BUCKET`      | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_APP_ID`              | Igual que en tu `.env`                                                 |
+| `VITE_FIREBASE_MEASUREMENT_ID`      | Igual que en tu `.env` (opcional)                                      |
+
+**Cómo generar `FIREBASE_SERVICE_ACCOUNT`:**
+
+1. En la [consola de Google Cloud](https://console.cloud.google.com/iam-admin/serviceaccounts)
+   (mismo proyecto que tu Firebase), crea una service account, ej.
+   `github-actions-deploy`.
+2. Asígnale el rol **Firebase Hosting Admin** (y **Firebase Admin** si
+   también quieres que despliegue Firestore rules/índices desde CI).
+3. Genera una clave JSON para esa service account (_Keys > Add key > Create
+   new key > JSON_) y descarga el archivo.
+4. Copia **todo el contenido del JSON** y pégalo como valor del secret
+   `FIREBASE_SERVICE_ACCOUNT` en GitHub.
+
+Alternativa más simple: correr `npx firebase-tools init hosting:github`
+localmente (autenticado con una cuenta que tenga acceso al proyecto); el
+propio CLI crea la service account, la guarda como secret y genera un
+workflow equivalente.
+
+Una vez configurados los secrets, cualquier merge/push a `main` dispara el
+deploy automáticamente — no hace falta correr `firebase deploy` a mano.
+
+### 7. Dominio personalizado (ej. `link.dailyduty.co`)
+
+1. Entra a **Firebase Console > Hosting** del proyecto y haz clic en **Agregar
+   dominio personalizado**.
+2. Escribe el dominio o subdominio, por ejemplo `link.dailyduty.co`.
+3. Firebase te pedirá **verificar la propiedad del dominio**: te da un
+   registro TXT para agregar en el DNS de `dailyduty.co`. Agrégalo en tu
+   proveedor de DNS y espera a que Firebase confirme la verificación (puede
+   tardar unos minutos).
+4. Después de verificar, Firebase muestra los **registros DNS a configurar**
+   para el subdominio. Para un subdominio (`link.dailyduty.co`) normalmente
+   es un registro **A** (o **CNAME**, según el caso) apuntando a las IPs o
+   al host que indique la consola — usa exactamente los valores que Firebase
+   te muestre en ese momento, ya que pueden variar.
+5. Agrega ese registro en el DNS de `dailyduty.co` (en Cloudflare, GoDaddy,
+   Namecheap, etc., donde esté administrado el dominio).
+6. Espera la propagación del DNS (minutos a horas) y a que Firebase emita el
+   certificado SSL automáticamente. El estado en la consola pasa de
+   "Necesita configuración" a "Conectado".
+7. Repite el proceso (paso 1 en adelante) si además quieres usar el dominio
+   raíz `dailyduty.co` o el subdominio `www`.
+
+No hace falta ningún cambio en `firebase.json` ni en el workflow de GitHub
+Actions para usar un dominio personalizado: una vez conectado en la consola,
+Firebase sirve el mismo contenido de Hosting (el de cada deploy a `main`) en
+ese dominio automáticamente.
+
 ## Desarrollo
 
 ```bash
