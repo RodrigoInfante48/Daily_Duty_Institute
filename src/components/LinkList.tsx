@@ -1,5 +1,6 @@
 import { useLinks } from '../hooks/useLinks'
 import { LinkButton } from './LinkButton'
+import { EmailCaptureCard } from './EmailCaptureCard'
 import { Card, Button } from './ui'
 
 function LinkListSkeleton() {
@@ -44,21 +45,27 @@ export function LinkList() {
 
   if (links.length === 0) {
     return (
-      <Card className="flex w-full items-center justify-center px-space-md py-space-lg text-center">
-        <p className="text-sm text-ink-muted">
-          Todavía no hay links disponibles.
-        </p>
-      </Card>
+      <div className="flex w-full flex-col gap-3">
+        <Card className="flex w-full items-center justify-center px-space-md py-space-lg text-center">
+          <p className="text-sm text-ink-muted">
+            Todavía no hay links disponibles.
+          </p>
+        </Card>
+        <EmailCaptureCard />
+      </div>
     )
   }
 
   return (
-    <ul className="flex w-full flex-col gap-3">
-      {links.map((link) => (
-        <li key={link.id}>
-          <LinkButton {...link} />
-        </li>
-      ))}
-    </ul>
+    <div className="flex w-full flex-col gap-3">
+      <ul className="flex w-full flex-col gap-3">
+        {links.map((link) => (
+          <li key={link.id}>
+            <LinkButton {...link} />
+          </li>
+        ))}
+      </ul>
+      <EmailCaptureCard />
+    </div>
   )
 }

@@ -59,10 +59,34 @@ Con `VITE_FIREBASE_MEASUREMENT_ID` configurado, la app trackea automáticamente:
   URL si están presentes (`utm_source`, `utm_medium`, `utm_content`).
 - **`link_click`** (evento custom): cada vez que se hace clic en una card de
   la lista de links, con `link_id`, `link_title` y `destination_url`.
+- **`lead_captured`** (evento custom): al enviar el formulario de captura de
+  email, con `source_utm`.
 
 Esto permite ver en GA4 qué red social/canal (`utm_source`) trae más
 tráfico y qué link tiene mejor CTR (comparando `link_click` contra
 `page_view`).
+
+### Captura de email (opcional)
+
+Al final de la lista de links se muestra una card opcional — "Recibe
+contenido gratis" — con un input de email y un checkbox de consentimiento
+explícito ("Acepto recibir contenido por email"), requerido para poder
+enviar el formulario. No bloquea el acceso a los links: se puede cerrar con
+el botón ✕ (la elección de cerrarla o de haber enviado el email se guarda en
+`localStorage` para no volver a mostrarla).
+
+Al enviar, se crea un documento en la colección `leads` de Firestore:
+
+| Campo        | Tipo               | Descripción                                       |
+| ------------ | ------------------ | ------------------------------------------------- |
+| `email`      | string             | Email ingresado                                   |
+| `source_utm` | string \| null     | Valor de `utm_source` en la URL, si está presente |
+| `timestamp`  | timestamp (server) | Fecha de creación del lead                        |
+
+`firestore.rules` permite `create` en `leads` (validando la forma del
+documento y el formato del email) pero no permite `read`, `update` ni
+`delete` desde el cliente — los leads solo se consultan desde la consola de
+Firebase.
 
 ### 3. Colección `links`
 

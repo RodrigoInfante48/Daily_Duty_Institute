@@ -9,5 +9,18 @@ service cloud.firestore {
       allow read: if resource.data.active == true;
       allow write: if false;
     }
+
+    // Write-only lead capture: anyone can submit a lead, nobody can read,
+    // edit or delete them from the client. Consent must be explicit
+    // (checked client-side) before the write is even attempted, and the
+    // stored shape is validated here so only well-formed leads land.
+    match /leads/{leadId} {
+      allow read, update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['email', 'source_utm', 'timestamp'])
+        && request.resource.data.email is string
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && (request.resource.data.source_utm == null || request.resource.data.source_utm is string)
+        && request.resource.data.timestamp == request.time;
+    }
   }
 }
