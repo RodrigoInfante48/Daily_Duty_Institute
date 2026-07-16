@@ -9,6 +9,7 @@ nosotros en vez de depender de un servicio de terceros.
 
 - [Vite](https://vite.dev/) + [React](https://react.dev/) + TypeScript
 - [Tailwind CSS](https://tailwindcss.com/) (v4, vía `@tailwindcss/vite`)
+- [Firebase](https://firebase.google.com/) (Firestore + Hosting)
 - ESLint + Prettier
 
 ## Estructura
@@ -16,17 +17,78 @@ nosotros en vez de depender de un servicio de terceros.
 ```
 src/
   components/   # Componentes de UI (ProfileHeader, LinkButton, LinkList, ...)
-  data/         # Datos estáticos: perfil y lista de enlaces (links.ts)
+  data/         # Datos estáticos: perfil (links.ts)
   hooks/        # Hooks reutilizables (useLinks, ...)
-  lib/          # Utilidades genéricas (helpers, formateo, etc.)
+  lib/          # Firebase (firebase.ts) y acceso a datos (links.ts), utilidades
+  types/        # Tipos compartidos (link.ts)
 ```
 
-Para agregar o modificar enlaces, edita `src/data/links.ts`.
+Los links de la página **ya no están hardcodeados**: se leen en tiempo real
+desde la colección `links` de Firestore (ver sección siguiente). El único
+dato estático que queda es el perfil (`src/data/links.ts`).
+
+## Firebase
+
+### 1. Crear el proyecto
+
+1. Crea un proyecto en la [consola de Firebase](https://console.firebase.google.com/).
+2. Habilita **Firestore Database** (modo producción) y **Hosting**.
+3. En _Configuración del proyecto > Tus apps_, agrega una app Web y copia el
+   objeto de config.
+
+### 2. Variables de entorno
+
+```bash
+cp .env.example .env
+```
+
+Completa `.env` con los valores del config web del paso anterior
+(`VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, etc.). `.env` no se
+commitea.
+
+### 3. Colección `links`
+
+Cada documento de la colección `links` representa un botón de la lista:
+
+| Campo       | Tipo              | Descripción                          |
+| ----------- | ----------------- | ------------------------------------ |
+| `title`     | string            | Título del link                      |
+| `subtitle`  | string (opcional) | Descripción corta                    |
+| `url`       | string            | Destino del link                     |
+| `icon`      | string            | Emoji o ícono a mostrar              |
+| `order`     | number            | Orden de aparición (ascendente)      |
+| `active`    | boolean           | Si es `false`, el link no se muestra |
+| `createdAt` | timestamp         | Fecha de creación                    |
+
+Para **agregar, editar o desactivar** un link, edita la colección `links`
+directamente desde la consola de Firebase (Firestore Database) — el
+cambio se refleja en la página al instante, sin necesidad de re-deployar.
+
+### 4. Reglas de seguridad e índices
+
+Este repo incluye `firestore.rules` (lectura pública solo de links con
+`active == true`, sin escritura desde el cliente) y `firestore.indexes.json`
+(índice compuesto `active` + `order` que requiere la consulta). Para
+desplegarlos:
+
+```bash
+npx firebase-tools login
+npx firebase-tools use --add   # selecciona tu proyecto (crea .firebaserc, no se commitea)
+npx firebase-tools deploy --only firestore
+```
+
+### 5. Deploy de Hosting
+
+```bash
+npm run build
+npx firebase-tools deploy --only hosting
+```
 
 ## Desarrollo
 
 ```bash
 npm install
+cp .env.example .env   # y completa tus credenciales de Firebase
 npm run dev
 ```
 

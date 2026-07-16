@@ -1,4 +1,4 @@
-import type { LinkItem } from '../data/links'
+import type { LinkItem } from '../types/link'
 import { Card } from './ui'
 
 export function LinkButton({ icon, title, subtitle, url }: LinkItem) {

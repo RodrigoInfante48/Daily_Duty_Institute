@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public, read-only access to active links. Editing happens from the
+    // Firebase console (which authenticates as a project owner and is not
+    // subject to these rules), so no client write path is exposed here.
+    match /links/{linkId} {
+      allow read: if resource.data.active == true;
+      allow write: if false;
+    }
+  }
+}
