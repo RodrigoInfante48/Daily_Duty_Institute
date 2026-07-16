@@ -13,6 +13,10 @@ function getUtmParams() {
   }, {})
 }
 
+export function getUtmSource(): string | null {
+  return new URLSearchParams(window.location.search).get('utm_source')
+}
+
 export async function trackPageView() {
   const analytics = await analyticsReady
   if (!analytics) return
@@ -39,5 +43,14 @@ export async function trackLinkClick({ id, title, url }: TrackableLink) {
     link_id: id,
     link_title: title,
     destination_url: url,
+  })
+}
+
+export async function trackLeadCaptured(sourceUtm: string | null) {
+  const analytics = await analyticsReady
+  if (!analytics) return
+
+  logEvent(analytics, 'lead_captured', {
+    source_utm: sourceUtm,
   })
 }
