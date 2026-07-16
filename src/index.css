@@ -1,1 +1,67 @@
 @import 'tailwindcss';
+
+@theme {
+  /* ---------- Brand colors ---------- */
+  --color-teal: #00e6c7;
+  --color-teal-dim: #00b8a0;
+  --color-gold: #ffb800;
+  --color-gold-dim: #cc9200;
+
+  --color-navy: #1a1a2e;
+  --color-navy-deep: #101021;
+  --color-navy-light: #24243f;
+
+  /* ---------- Glassmorphism surfaces ---------- */
+  --color-glass: rgb(255 255 255 / 6%);
+  --color-glass-strong: rgb(255 255 255 / 10%);
+  --color-glass-border: rgb(255 255 255 / 12%);
+
+  /* ---------- Text ---------- */
+  --color-ink: #f4f5f9;
+  --color-ink-muted: #9a9ab3;
+
+  /* ---------- Typography ---------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Sora', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /*
+   * Semantic spacing scale, layered on top of the default numeric scale.
+   * Namespaced as `space-*` (not bare `xs`/`sm`/`md`...) because Tailwind's
+   * w-/h-/max-w-/min-w- utilities fall back to the --spacing-{name} scale
+   * before --container-{name}, and those short names collide with the
+   * built-in container scale (max-w-md, etc).
+   */
+  --spacing-space-xs: 0.5rem;
+  --spacing-space-sm: 0.75rem;
+  --spacing-space-md: 1.25rem;
+  --spacing-space-lg: 2rem;
+  --spacing-space-xl: 3rem;
+  --spacing-space-2xl: 4.5rem;
+
+  /* ---------- Radius ---------- */
+  --radius-button: 0.9rem;
+  --radius-card: 1.5rem;
+
+  /* ---------- Shadows ---------- */
+  --shadow-glass:
+    0 8px 32px 0 rgb(0 0 0 / 35%), inset 0 1px 0 0 rgb(255 255 255 / 8%);
+  --shadow-glow-teal:
+    0 0 0 1px rgb(0 230 199 / 25%), 0 10px 30px -6px rgb(0 230 199 / 45%);
+  --shadow-glow-gold:
+    0 0 0 1px rgb(255 184 0 / 25%), 0 10px 30px -6px rgb(255 184 0 / 45%);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-svh bg-navy-deep font-sans text-ink antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgb(0 230 199 / 18%), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgb(255 184 0 / 14%), transparent 50%),
+      linear-gradient(180deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
+    background-attachment: fixed;
+  }
+}
