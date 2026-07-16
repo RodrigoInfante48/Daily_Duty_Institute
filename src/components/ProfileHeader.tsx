@@ -1,5 +1,6 @@
 import { profile } from '../data/links'
 import { Avatar } from './ui'
+import { SocialLinks } from './SocialLinks'
 
 export function ProfileHeader() {
   return (
@@ -9,6 +10,7 @@ export function ProfileHeader() {
         {profile.name}
       </h1>
       <p className="text-sm text-ink-muted">{profile.tagline}</p>
+      <SocialLinks />
     </header>
   )
 }

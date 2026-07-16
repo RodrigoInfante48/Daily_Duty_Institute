@@ -1,31 +1,43 @@
 export interface LinkItem {
   id: string
-  label: string
+  icon: string
+  title: string
+  subtitle?: string
   url: string
-  description?: string
 }
 
 export const profile = {
-  name: 'Daily Duty Institute',
+  name: 'Daily Duty',
   tagline: 'Hábitos, disciplina y crecimiento diario.',
-  avatarUrl: '/favicon.svg',
 }
 
 export const links: LinkItem[] = [
   {
     id: 'website',
-    label: 'Sitio web',
+    icon: '🌐',
+    title: 'Sitio web',
+    subtitle: 'Conoce Daily Duty Institute',
     url: 'https://example.com',
-    description: 'Conoce más sobre Daily Duty Institute',
   },
   {
-    id: 'instagram',
-    label: 'Instagram',
-    url: 'https://instagram.com',
+    id: 'booking',
+    icon: '📅',
+    title: 'Agenda tu clase',
+    subtitle: 'Reserva un cupo disponible',
+    url: 'https://example.com/agenda',
   },
   {
-    id: 'youtube',
-    label: 'YouTube',
-    url: 'https://youtube.com',
+    id: 'courses',
+    icon: '📚',
+    title: 'Cursos y programas',
+    subtitle: 'Explora nuestra oferta académica',
+    url: 'https://example.com/cursos',
+  },
+  {
+    id: 'community',
+    icon: '💬',
+    title: 'Comunidad',
+    subtitle: 'Únete al grupo de la comunidad',
+    url: 'https://example.com/comunidad',
   },
 ]
