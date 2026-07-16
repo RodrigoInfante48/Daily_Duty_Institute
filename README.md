@@ -46,6 +46,24 @@ Completa `.env` con los valores del config web del paso anterior
 (`VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, etc.). `.env` no se
 commitea.
 
+Para trackear analítica, habilita **Google Analytics** al crear la app web
+(o desde _Configuración del proyecto > Integraciones_) y completa también
+`VITE_FIREBASE_MEASUREMENT_ID`. Sin ese valor, la app funciona igual pero
+no se envían eventos a Analytics.
+
+### Analytics (GA4 vía Firebase)
+
+Con `VITE_FIREBASE_MEASUREMENT_ID` configurado, la app trackea automáticamente:
+
+- **`page_view`**: al cargar la página, incluyendo los parámetros UTM de la
+  URL si están presentes (`utm_source`, `utm_medium`, `utm_content`).
+- **`link_click`** (evento custom): cada vez que se hace clic en una card de
+  la lista de links, con `link_id`, `link_title` y `destination_url`.
+
+Esto permite ver en GA4 qué red social/canal (`utm_source`) trae más
+tráfico y qué link tiene mejor CTR (comparando `link_click` contra
+`page_view`).
+
 ### 3. Colección `links`
 
 Cada documento de la colección `links` representa un botón de la lista:

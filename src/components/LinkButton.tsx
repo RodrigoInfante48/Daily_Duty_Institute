@@ -1,7 +1,8 @@
 import type { LinkItem } from '../types/link'
+import { trackLinkClick } from '../lib/analytics'
 import { Card } from './ui'
 
-export function LinkButton({ icon, title, subtitle, url }: LinkItem) {
+export function LinkButton({ id, icon, title, subtitle, url }: LinkItem) {
   return (
     <Card
       as="a"
@@ -9,6 +10,7 @@ export function LinkButton({ icon, title, subtitle, url }: LinkItem) {
       target="_blank"
       rel="noreferrer"
       hover
+      onClick={() => trackLinkClick({ id, title, url })}
       className="flex w-full items-center gap-space-sm px-space-md py-space-sm text-left"
     >
       <span
