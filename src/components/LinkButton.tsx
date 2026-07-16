@@ -1,21 +1,24 @@
 import type { LinkItem } from '../data/links'
+import { Card } from './ui'
 
 export function LinkButton({ label, url, description }: LinkItem) {
   return (
-    <a
+    <Card
+      as="a"
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="block w-full rounded-xl border border-neutral-200 bg-white px-5 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-900"
+      hover
+      className="block w-full px-space-md py-space-sm text-center"
     >
-      <span className="font-medium text-neutral-900 dark:text-neutral-100">
+      <span className="font-display text-base font-semibold text-ink">
         {label}
       </span>
       {description && (
-        <span className="block text-xs text-neutral-500 dark:text-neutral-400">
+        <span className="mt-1 block text-xs text-ink-muted">
           {description}
         </span>
       )}
-    </a>
+    </Card>
   )
 }

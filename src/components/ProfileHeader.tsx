@@ -1,19 +1,14 @@
 import { profile } from '../data/links'
+import { Avatar } from './ui'
 
 export function ProfileHeader() {
   return (
-    <header className="flex flex-col items-center gap-3 text-center">
-      <img
-        src={profile.avatarUrl}
-        alt={profile.name}
-        className="h-20 w-20 rounded-full border border-neutral-200 object-cover dark:border-neutral-700"
-      />
-      <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+    <header className="flex flex-col items-center gap-space-sm text-center">
+      <Avatar size="lg" />
+      <h1 className="font-display text-xl font-semibold text-ink">
         {profile.name}
       </h1>
-      <p className="text-sm text-neutral-500 dark:text-neutral-400">
-        {profile.tagline}
-      </p>
+      <p className="text-sm text-ink-muted">{profile.tagline}</p>
     </header>
   )
 }
