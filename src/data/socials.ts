@@ -7,16 +7,20 @@ export interface SocialLink {
 }
 
 export const socials: SocialLink[] = [
-  { id: 'whatsapp', label: 'WhatsApp', url: 'https://wa.me/10000000000' },
+  {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    url: 'https://api.whatsapp.com/send?phone=573209974750',
+  },
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    url: 'https://linkedin.com/company/daily-duty-institute',
+    url: 'https://www.linkedin.com/in/rodrigo-infante-00141a1a2/',
   },
   {
     id: 'github',
     label: 'GitHub',
-    url: 'https://github.com/daily-duty-institute',
+    url: 'https://github.com/RodrigoInfante48',
   },
-  { id: 'tiktok', label: 'TikTok', url: 'https://tiktok.com/@dailydutyinstitute' },
+  { id: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@dailyduty.8' },
 ]
