@@ -1,24 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-  /* ---------- Brand colors ---------- */
-  --color-teal: #00e6c7;
-  --color-teal-dim: #00b8a0;
-  --color-gold: #ffb800;
-  --color-gold-dim: #cc9200;
+  /* ---------- Brand colors — liquid glass / holographic ---------- */
+  --color-violet: #8b5cf6;
+  --color-violet-dim: #6d28d9;
+  --color-magenta: #ec4899;
+  --color-magenta-dim: #be185d;
+  --color-cyan: #22d3ee;
+  --color-cyan-dim: #0891b2;
+  --color-chrome: #e7e7f1;
+  --color-chrome-dim: #9695ab;
+  --color-amber: #f5a623;
 
-  --color-navy: #1a1a2e;
-  --color-navy-deep: #101021;
-  --color-navy-light: #24243f;
+  --color-void: #120f1e;
+  --color-void-deep: #07060c;
+  --color-void-light: #1c1830;
 
   /* ---------- Glassmorphism surfaces ---------- */
   --color-glass: rgb(255 255 255 / 6%);
-  --color-glass-strong: rgb(255 255 255 / 10%);
-  --color-glass-border: rgb(255 255 255 / 12%);
+  --color-glass-strong: rgb(255 255 255 / 11%);
+  --color-glass-border: rgb(255 255 255 / 14%);
 
   /* ---------- Text ---------- */
-  --color-ink: #f4f5f9;
-  --color-ink-muted: #9a9ab3;
+  --color-ink: #f6f5fc;
+  --color-ink-muted: #a6a2c4;
 
   /* ---------- Typography ---------- */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -44,11 +49,61 @@
 
   /* ---------- Shadows ---------- */
   --shadow-glass:
-    0 8px 32px 0 rgb(0 0 0 / 35%), inset 0 1px 0 0 rgb(255 255 255 / 8%);
-  --shadow-glow-teal:
-    0 0 0 1px rgb(0 230 199 / 25%), 0 10px 30px -6px rgb(0 230 199 / 45%);
-  --shadow-glow-gold:
-    0 0 0 1px rgb(255 184 0 / 25%), 0 10px 30px -6px rgb(255 184 0 / 45%);
+    0 8px 32px 0 rgb(0 0 0 / 45%), inset 0 1px 0 0 rgb(255 255 255 / 9%);
+  --shadow-glow-iris:
+    0 0 0 1px rgb(139 92 246 / 25%),
+    0 12px 36px -8px rgb(236 72 153 / 40%),
+    0 4px 22px -6px rgb(34 211 238 / 30%);
+  --shadow-glow-chrome:
+    0 0 0 1px rgb(231 231 241 / 30%), 0 10px 28px -8px rgb(231 231 241 / 30%);
+
+  /* ---------- Motion ---------- */
+  --animate-iris-spin: iris-spin 7s linear infinite;
+  --animate-liquid-drift-1: liquid-drift-1 26s ease-in-out infinite;
+  --animate-liquid-drift-2: liquid-drift-2 32s ease-in-out infinite;
+  --animate-liquid-drift-3: liquid-drift-3 38s ease-in-out infinite;
+}
+
+@keyframes iris-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes liquid-drift-1 {
+  0%,
+  100% {
+    transform: translate(-8%, -6%) scale(1);
+  }
+  33% {
+    transform: translate(10%, 8%) scale(1.18);
+  }
+  66% {
+    transform: translate(-4%, 12%) scale(0.92);
+  }
+}
+
+@keyframes liquid-drift-2 {
+  0%,
+  100% {
+    transform: translate(6%, -8%) scale(1.05);
+  }
+  40% {
+    transform: translate(-10%, 6%) scale(0.88);
+  }
+  75% {
+    transform: translate(4%, 14%) scale(1.15);
+  }
+}
+
+@keyframes liquid-drift-3 {
+  0%,
+  100% {
+    transform: translate(-6%, 8%) scale(0.95);
+  }
+  50% {
+    transform: translate(9%, -10%) scale(1.2);
+  }
 }
 
 @layer base {
@@ -57,11 +112,36 @@
   }
 
   body {
-    @apply min-h-svh bg-navy-deep font-sans text-ink antialiased;
-    background-image:
-      radial-gradient(circle at 15% 10%, rgb(0 230 199 / 18%), transparent 45%),
-      radial-gradient(circle at 85% 90%, rgb(255 184 0 / 14%), transparent 50%),
-      linear-gradient(180deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
+    @apply min-h-svh bg-void-deep font-sans text-ink antialiased;
+    background-image: linear-gradient(
+      180deg,
+      var(--color-void) 0%,
+      var(--color-void-deep) 100%
+    );
     background-attachment: fixed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+@layer components {
+  .glass-sheen::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      rgb(255 255 255 / 16%) 0%,
+      rgb(255 255 255 / 0%) 42%
+    );
+    mix-blend-mode: soft-light;
   }
 }

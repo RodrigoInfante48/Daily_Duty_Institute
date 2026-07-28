@@ -12,7 +12,7 @@ export function SocialLinks() {
             rel="noreferrer"
             aria-label={social.label}
             title={social.label}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-glass-border bg-glass text-ink-muted backdrop-blur-xl transition duration-200 ease-out hover:-translate-y-0.5 hover:border-teal/40 hover:bg-glass-strong hover:text-teal hover:shadow-glow-teal"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-glass-border bg-glass text-ink-muted backdrop-blur-xl transition duration-200 ease-out hover:-translate-y-0.5 hover:border-violet/40 hover:bg-glass-strong hover:text-violet hover:shadow-glow-iris"
           >
             <SocialGlyph platform={social.id} className="h-5 w-5" />
           </a>

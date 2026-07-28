@@ -24,25 +24,25 @@ export function Avatar({
   ...props
 }: AvatarProps) {
   return (
-    <div
-      className={cn(
-        'relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-glass-border bg-gradient-to-br from-teal to-gold shadow-glow-teal',
-        sizeClasses[size],
-        className,
-      )}
-    >
-      {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className="h-full w-full object-cover"
-          {...props}
-        />
-      ) : (
-        <span className="font-display font-bold text-navy-deep">
-          {monogram}
-        </span>
-      )}
+    <div className={cn('relative shrink-0', sizeClasses[size], className)}>
+      <div
+        aria-hidden="true"
+        className="animate-iris-spin absolute inset-[-3px] rounded-full bg-[conic-gradient(from_0deg,var(--color-violet),var(--color-magenta),var(--color-cyan),var(--color-violet))] blur-[1px]"
+      />
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-glass-border bg-void shadow-glow-iris">
+        {src ? (
+          <img
+            src={src}
+            alt={alt}
+            className="h-full w-full object-cover"
+            {...props}
+          />
+        ) : (
+          <span className="bg-[linear-gradient(135deg,var(--color-violet),var(--color-cyan))] bg-clip-text font-display font-bold text-transparent">
+            {monogram}
+          </span>
+        )}
+      </div>
     </div>
   )
 }

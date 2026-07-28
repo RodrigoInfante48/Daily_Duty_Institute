@@ -96,7 +96,7 @@ export function EmailCaptureCard() {
           onChange={(event) => setEmail(event.target.value)}
           placeholder="tu@email.com"
           aria-label="Email"
-          className="w-full rounded-button border border-glass-border bg-glass-strong px-space-sm py-space-xs text-sm text-ink placeholder-ink-muted outline-none focus-visible:ring-2 focus-visible:ring-teal/50"
+          className="w-full rounded-button border border-glass-border bg-glass-strong px-space-sm py-space-xs text-sm text-ink placeholder-ink-muted outline-none focus-visible:ring-2 focus-visible:ring-violet/50"
         />
 
         <label className="flex items-start gap-2 text-xs text-ink-muted">
@@ -105,13 +105,13 @@ export function EmailCaptureCard() {
             required
             checked={consent}
             onChange={(event) => setConsent(event.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 rounded border-glass-border bg-glass-strong accent-teal"
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-glass-border bg-glass-strong accent-violet"
           />
           Acepto recibir contenido por email.
         </label>
 
         {status === 'error' && (
-          <p className="text-xs text-gold">
+          <p className="text-xs text-amber">
             No pudimos guardar tu email. Intenta de nuevo.
           </p>
         )}
