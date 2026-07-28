@@ -58,7 +58,8 @@
     0 0 0 1px rgb(231 231 241 / 30%), 0 10px 28px -8px rgb(231 231 241 / 30%);
 
   /* ---------- Motion ---------- */
-  --animate-iris-spin: iris-spin 7s linear infinite;
+  --animate-iris-spin:
+    iris-spin 7s linear infinite, iris-hue-cycle 5s linear infinite;
   --animate-liquid-drift-1: liquid-drift-1 26s ease-in-out infinite;
   --animate-liquid-drift-2: liquid-drift-2 32s ease-in-out infinite;
   --animate-liquid-drift-3: liquid-drift-3 38s ease-in-out infinite;
@@ -72,6 +73,15 @@
 @keyframes iris-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes iris-hue-cycle {
+  from {
+    filter: blur(1px) hue-rotate(0deg) saturate(1.4);
+  }
+  to {
+    filter: blur(1px) hue-rotate(360deg) saturate(1.4);
   }
 }
 

@@ -27,7 +27,7 @@ export function Avatar({
     <div className={cn('relative shrink-0', sizeClasses[size], className)}>
       <div
         aria-hidden="true"
-        className="animate-iris-spin absolute inset-[-3px] rounded-full bg-[conic-gradient(from_0deg,var(--color-violet),var(--color-magenta),var(--color-cyan),var(--color-violet))] blur-[1px]"
+        className="animate-iris-spin absolute inset-[-3px] rounded-full bg-[conic-gradient(from_0deg,var(--color-violet),var(--color-magenta),var(--color-cyan),var(--color-violet))]"
       />
       <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-glass-border bg-void shadow-glow-iris">
         {src ? (
