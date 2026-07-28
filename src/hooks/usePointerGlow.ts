@@ -3,16 +3,20 @@ import { useCallback, useRef, type PointerEvent } from 'react'
 /**
  * Imperatively drives --glow-x/--glow-y/--glow-opacity/--tilt-x/--tilt-y CSS
  * vars from the pointer position, skipping re-renders entirely (mousemove
- * fires far too often for React state). Touch is ignored: tilt/glow are a
- * hover-only affordance and touch has no hover.
+ * fires far too often for React state).
+ *
+ * Mouse gets the continuous follow-the-cursor version (pointermove).
+ * Touch has no hover, so instead it gets a "press" version: the glow lands
+ * where the finger touches down and fades out on release, via pointerdown/
+ * pointerup/pointercancel rather than pointermove.
  */
 export function usePointerGlow<T extends HTMLElement>(maxTilt = 7) {
   const ref = useRef<T | null>(null)
 
-  const handleMove = useCallback(
+  const setFromEvent = useCallback(
     (event: PointerEvent) => {
       const el = ref.current
-      if (!el || event.pointerType !== 'mouse') return
+      if (!el) return
       const rect = el.getBoundingClientRect()
       const px = (event.clientX - rect.left) / rect.width
       const py = (event.clientY - rect.top) / rect.height
@@ -25,7 +29,7 @@ export function usePointerGlow<T extends HTMLElement>(maxTilt = 7) {
     [maxTilt],
   )
 
-  const handleLeave = useCallback(() => {
+  const reset = useCallback(() => {
     const el = ref.current
     if (!el) return
     el.style.setProperty('--glow-opacity', '0')
@@ -33,5 +37,27 @@ export function usePointerGlow<T extends HTMLElement>(maxTilt = 7) {
     el.style.setProperty('--tilt-y', '0deg')
   }, [])
 
-  return { ref, handleMove, handleLeave }
+  const handleMove = useCallback(
+    (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return
+      setFromEvent(event)
+    },
+    [setFromEvent],
+  )
+
+  const handleDown = useCallback(
+    (event: PointerEvent) => {
+      if (event.pointerType === 'mouse') return
+      setFromEvent(event)
+    },
+    [setFromEvent],
+  )
+
+  return {
+    ref,
+    handleMove,
+    handleLeave: reset,
+    handleDown,
+    handleUp: reset,
+  }
 }

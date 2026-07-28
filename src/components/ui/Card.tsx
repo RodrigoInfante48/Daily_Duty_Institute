@@ -14,10 +14,18 @@ export function Card<T extends ElementType = 'div'>({
   ...props
 }: CardProps<T>) {
   const Component = as ?? 'div'
-  const { ref, handleMove, handleLeave } = usePointerGlow<HTMLElement>()
+  const { ref, handleMove, handleLeave, handleDown, handleUp } =
+    usePointerGlow<HTMLElement>()
 
   const interactiveProps = hover
-    ? { ref, onPointerMove: handleMove, onPointerLeave: handleLeave }
+    ? {
+        ref,
+        onPointerMove: handleMove,
+        onPointerLeave: handleLeave,
+        onPointerDown: handleDown,
+        onPointerUp: handleUp,
+        onPointerCancel: handleUp,
+      }
     : {}
 
   return (

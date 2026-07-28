@@ -3,6 +3,7 @@ import { LiquidBackground } from './components/LiquidBackground'
 import { CursorSpotlight } from './components/CursorSpotlight'
 import { ProfileHeader } from './components/ProfileHeader'
 import { LinkList } from './components/LinkList'
+import { EmailCaptureCard } from './components/EmailCaptureCard'
 import { trackPageView } from './lib/analytics'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <ProfileHeader />
         <LinkList />
       </main>
+      <EmailCaptureCard />
     </>
   )
 }
