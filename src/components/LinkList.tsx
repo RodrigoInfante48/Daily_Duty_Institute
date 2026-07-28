@@ -1,7 +1,7 @@
 import { useLinks } from '../hooks/useLinks'
 import { LinkButton } from './LinkButton'
 import { EmailCaptureCard } from './EmailCaptureCard'
-import { Card, Button } from './ui'
+import { Card, Button, Reveal } from './ui'
 
 function LinkListSkeleton() {
   return (
@@ -59,13 +59,17 @@ export function LinkList() {
   return (
     <div className="flex w-full flex-col gap-3">
       <ul className="flex w-full flex-col gap-3">
-        {links.map((link) => (
+        {links.map((link, index) => (
           <li key={link.id}>
-            <LinkButton {...link} />
+            <Reveal delay={index * 70}>
+              <LinkButton {...link} />
+            </Reveal>
           </li>
         ))}
       </ul>
-      <EmailCaptureCard />
+      <Reveal delay={links.length * 70}>
+        <EmailCaptureCard />
+      </Reveal>
     </div>
   )
 }

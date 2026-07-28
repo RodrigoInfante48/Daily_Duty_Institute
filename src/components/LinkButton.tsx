@@ -15,7 +15,7 @@ export function LinkButton({ id, icon, title, subtitle, url }: LinkItem) {
     >
       <span
         aria-hidden="true"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-glass-strong text-xl"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-glass-strong text-xl transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110"
       >
         {icon}
       </span>

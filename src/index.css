@@ -62,6 +62,11 @@
   --animate-liquid-drift-1: liquid-drift-1 26s ease-in-out infinite;
   --animate-liquid-drift-2: liquid-drift-2 32s ease-in-out infinite;
   --animate-liquid-drift-3: liquid-drift-3 38s ease-in-out infinite;
+  --animate-shape-morph-1: shape-morph-1 18s ease-in-out infinite;
+  --animate-shape-morph-2: shape-morph-2 22s ease-in-out infinite;
+  --animate-halo-spin: halo-spin 40s linear infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-wiggle: wiggle 0.45s ease-in-out;
 }
 
 @keyframes iris-spin {
@@ -106,6 +111,64 @@
   }
 }
 
+@keyframes shape-morph-1 {
+  0%,
+  100% {
+    border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 35% 65% / 55% 65% 35% 45%;
+    transform: rotate(8deg) scale(1.08);
+  }
+  66% {
+    border-radius: 35% 65% 60% 40% / 40% 35% 65% 60%;
+    transform: rotate(-6deg) scale(0.95);
+  }
+}
+
+@keyframes shape-morph-2 {
+  0%,
+  100% {
+    border-radius: 55% 45% 40% 60% / 50% 55% 45% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 40% 60% 55% 45% / 60% 45% 55% 40%;
+    transform: rotate(-10deg) scale(1.12);
+  }
+}
+
+@keyframes halo-spin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -143,5 +206,89 @@
       rgb(255 255 255 / 0%) 42%
     );
     mix-blend-mode: soft-light;
+  }
+
+  /* Cursor-follow glare + subtle 3D tilt, driven by the --glow and --tilt
+     custom properties that usePointerGlow sets imperatively on the element. */
+  .tilt-card {
+    transform: translateY(0) perspective(900px)
+      rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease-out,
+      background-color 0.3s ease-out,
+      box-shadow 0.3s ease-out;
+  }
+
+  .tilt-card:hover {
+    transform: translateY(-3px) perspective(900px)
+      rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  }
+
+  .tilt-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      160px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgb(255 255 255 / 22%),
+      transparent 70%
+    );
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.3s ease-out;
+    mix-blend-mode: soft-light;
+  }
+
+  /* Parallax background layers: --px/--py/--sy live on .liquid-bg and are
+     inherited; each layer scales them by its own depth via --parallax-*. */
+  .liquid-bg {
+    --px: 0.5;
+    --py: 0.5;
+    --sy: 0;
+  }
+
+  .liquid-layer {
+    transform: translate3d(
+      calc((var(--px) - 0.5) * var(--parallax-x, 0px)),
+      calc(
+        (var(--py) - 0.5) * var(--parallax-y, 0px) + var(--sy) * 1px *
+          var(--parallax-scroll, 0)
+      ),
+      0
+    );
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .liquid-layer--1 {
+    --parallax-x: 40px;
+    --parallax-y: 30px;
+    --parallax-scroll: 0.06;
+  }
+  .liquid-layer--2 {
+    --parallax-x: -50px;
+    --parallax-y: 25px;
+    --parallax-scroll: -0.08;
+  }
+  .liquid-layer--3 {
+    --parallax-x: 30px;
+    --parallax-y: -35px;
+    --parallax-scroll: 0.05;
+  }
+  .liquid-layer--ring {
+    --parallax-x: -15px;
+    --parallax-y: 15px;
+    --parallax-scroll: 0.09;
+  }
+  .liquid-layer--shape1 {
+    --parallax-x: -25px;
+    --parallax-y: 20px;
+    --parallax-scroll: 0.12;
+  }
+  .liquid-layer--shape2 {
+    --parallax-x: 20px;
+    --parallax-y: -20px;
+    --parallax-scroll: -0.1;
   }
 }

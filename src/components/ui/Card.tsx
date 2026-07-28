@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
+import { usePointerGlow } from '../../hooks/usePointerGlow'
 import { cn } from '../../lib/utils'
 
 type CardProps<T extends ElementType> = {
@@ -13,15 +14,21 @@ export function Card<T extends ElementType = 'div'>({
   ...props
 }: CardProps<T>) {
   const Component = as ?? 'div'
+  const { ref, handleMove, handleLeave } = usePointerGlow<HTMLElement>()
+
+  const interactiveProps = hover
+    ? { ref, onPointerMove: handleMove, onPointerLeave: handleLeave }
+    : {}
 
   return (
     <Component
       className={cn(
-        'glass-sheen relative overflow-hidden rounded-card border border-glass-border bg-glass shadow-glass backdrop-blur-xl',
+        'glass-sheen group relative overflow-hidden rounded-card border border-glass-border bg-glass shadow-glass backdrop-blur-xl',
         hover &&
-          'transition duration-300 ease-out hover:-translate-y-0.5 hover:border-violet/40 hover:bg-glass-strong hover:shadow-glow-iris',
+          'tilt-card hover:border-violet/40 hover:bg-glass-strong hover:shadow-glow-iris',
         className,
       )}
+      {...(interactiveProps as object)}
       {...props}
     />
   )

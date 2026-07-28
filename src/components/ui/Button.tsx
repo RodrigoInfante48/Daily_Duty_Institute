@@ -8,11 +8,18 @@ import { cn } from '../../lib/utils'
 type ButtonVariant = 'primary' | 'secondary' | 'glass'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
+const sheen =
+  "after:pointer-events-none after:absolute after:inset-0 after:-translate-x-full after:bg-[linear-gradient(115deg,transparent_20%,rgb(255_255_255/40%)_50%,transparent_80%)] after:transition-transform after:duration-700 after:ease-out after:content-[''] hover:after:translate-x-full"
+
 const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    'bg-[linear-gradient(135deg,var(--color-violet),var(--color-magenta)_55%,var(--color-cyan))] text-white shadow-glow-iris hover:brightness-110 hover:-translate-y-0.5',
-  secondary:
-    'bg-[linear-gradient(135deg,#f4f4f8,#c8c7d8_45%,#9392a8)] text-void-deep shadow-glow-chrome hover:brightness-105 hover:-translate-y-0.5',
+  primary: cn(
+    'relative overflow-hidden bg-[linear-gradient(135deg,var(--color-violet),var(--color-magenta)_55%,var(--color-cyan))] text-white shadow-glow-iris hover:brightness-110 hover:-translate-y-0.5',
+    sheen,
+  ),
+  secondary: cn(
+    'relative overflow-hidden bg-[linear-gradient(135deg,#f4f4f8,#c8c7d8_45%,#9392a8)] text-void-deep shadow-glow-chrome hover:brightness-105 hover:-translate-y-0.5',
+    sheen,
+  ),
   glass:
     'border border-glass-border bg-glass text-ink backdrop-blur-xl hover:border-violet/40 hover:bg-glass-strong hover:shadow-glow-iris hover:-translate-y-0.5',
 }
