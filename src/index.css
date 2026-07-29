@@ -51,8 +51,7 @@
   --shadow-glass:
     0 8px 32px 0 rgb(0 0 0 / 45%), inset 0 1px 0 0 rgb(255 255 255 / 9%);
   --shadow-glow-iris:
-    0 0 0 1px rgb(139 92 246 / 25%),
-    0 12px 36px -8px rgb(236 72 153 / 40%),
+    0 0 0 1px rgb(139 92 246 / 25%), 0 12px 36px -8px rgb(236 72 153 / 40%),
     0 4px 22px -6px rgb(34 211 238 / 30%);
   --shadow-glow-chrome:
     0 0 0 1px rgb(231 231 241 / 30%), 0 10px 28px -8px rgb(231 231 241 / 30%);
@@ -221,8 +220,8 @@
   /* Cursor-follow glare + subtle 3D tilt, driven by the --glow and --tilt
      custom properties that usePointerGlow sets imperatively on the element. */
   .tilt-card {
-    transform: translateY(0) perspective(900px)
-      rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform: translateY(0) perspective(900px) rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg));
     transition:
       transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease-out,
@@ -231,8 +230,8 @@
   }
 
   .tilt-card:hover {
-    transform: translateY(-3px) perspective(900px)
-      rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform: translateY(-3px) perspective(900px) rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg));
   }
 
   .tilt-card::after {
