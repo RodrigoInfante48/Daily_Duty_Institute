@@ -136,9 +136,9 @@ Para que el workflow funcione hay que configurar estos **secrets** en
 GitHub (_Settings > Secrets and variables > Actions > New repository
 secret_):
 
-| Secret                              | Valor                                                                 |
-| ------------------------------------ | ---------------------------------------------------------------------- |
-| `FIREBASE_PROJECT_ID`               | El Project ID de Firebase (ej. `daily-duty-institute`)                |
+| Secret                              | Valor                                                                  |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| `FIREBASE_PROJECT_ID`               | El Project ID de Firebase (ej. `daily-duty-institute`)                 |
 | `FIREBASE_SERVICE_ACCOUNT`          | JSON completo de una service account con permiso de deploy (ver abajo) |
 | `VITE_FIREBASE_API_KEY`             | Igual que en tu `.env`                                                 |
 | `VITE_FIREBASE_AUTH_DOMAIN`         | Igual que en tu `.env`                                                 |

@@ -18,8 +18,9 @@ export const db = getFirestore(app)
 
 // `isSupported()` rules out environments without analytics support
 // (e.g. browsers without IndexedDB); resolves to `null` there instead of throwing.
-export const analyticsReady: Promise<Analytics | null> = firebaseConfig.measurementId
-  ? isSupported()
-      .then((supported) => (supported ? getAnalytics(app) : null))
-      .catch(() => null)
-  : Promise.resolve(null)
+export const analyticsReady: Promise<Analytics | null> =
+  firebaseConfig.measurementId
+    ? isSupported()
+        .then((supported) => (supported ? getAnalytics(app) : null))
+        .catch(() => null)
+    : Promise.resolve(null)
